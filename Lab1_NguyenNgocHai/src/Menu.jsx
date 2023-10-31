@@ -3,6 +3,9 @@ import { listloai } from './data';
 
 class Menu extends React.Component {
   render() {
+    const sortedListLoai = [...listloai];
+    sortedListLoai.sort((a, b) => parseInt(a.thutu) - parseInt(b.thutu));
+
     return (
       <ul className="nav">
         <li className="nav-item">
@@ -10,7 +13,7 @@ class Menu extends React.Component {
             Trang chủ
           </a>
         </li>
-        {listloai.map((loai, i) => (
+        {sortedListLoai.map((loai, i) => (
           <li className="nav-item" key={i}>
             <a href={`/danh-muc/${loai.id_loai}`} className="nav-link text-dark">
               {loai.ten_loai}

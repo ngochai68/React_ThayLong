@@ -5,9 +5,12 @@ function formatPrice(price) {
 }
 
 function Home() {
+  const sortedListSP = [...listsp];
+  sortedListSP.sort((a, b) => parseInt(a.id_sp) - parseInt(b.id_sp));
+
   return (
     <div className="row">
-      {listsp.slice(0, 6).map((sp, i) => (
+      {sortedListSP.slice(0, 6).map((sp, i) => (
         <div className="col-md-4 mb-4" key={i}>
           <div className="card">
             <a href={`/san-pham/${sp.id_sp}`} className="text-dark text-decoration-none">

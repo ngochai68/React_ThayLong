@@ -18,7 +18,7 @@ function App() {
           <Home />
         </article>
         <aside className="col-md-3">
-          <h3 >Sản phẩm xem nhiều</h3>
+          <h3>Sản phẩm xem nhiều</h3>
           <SanPhamXemNhieu />
         </aside>
       </main>

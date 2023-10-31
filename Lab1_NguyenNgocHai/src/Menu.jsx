@@ -12,7 +12,7 @@ class Menu extends React.Component {
         </li>
         {listloai.map((loai, i) => (
           <li className="nav-item" key={i}>
-            <a href={`/danh-muc/${loai.id}`} className="nav-link text-dark">
+            <a href={`/danh-muc/${loai.id_loai}`} className="nav-link text-dark">
               {loai.ten_loai}
             </a>
           </li>

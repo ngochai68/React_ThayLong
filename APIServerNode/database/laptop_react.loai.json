@@ -1,0 +1,88 @@
+[{
+  "_id": {
+    "$oid": "65417864fb2a89af9df36b74"
+  },
+  "ten_loai": "Asus",
+  "thutu": 0,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "654178d5fb2a89af9df36b75"
+  },
+  "ten_loai": "Acer",
+  "thutu": 1,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "654178e3fb2a89af9df36b76"
+  },
+  "ten_loai": "Lenovo",
+  "thutu": 2,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "654178f3fb2a89af9df36b77"
+  },
+  "ten_loai": "MSI",
+  "thutu": 3,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "65417901fb2a89af9df36b78"
+  },
+  "ten_loai": "HP",
+  "thutu": 4,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "6541790cfb2a89af9df36b79"
+  },
+  "ten_loai": "Dell",
+  "thutu": 5,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "6541791afb2a89af9df36b7a"
+  },
+  "ten_loai": "Apple",
+  "thutu": 6,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "65417929fb2a89af9df36b7b"
+  },
+  "ten_loai": "Surface",
+  "thutu": 7,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "65417939fb2a89af9df36b7c"
+  },
+  "ten_loai": "Masstel",
+  "thutu": 8,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "65417945fb2a89af9df36b7d"
+  },
+  "ten_loai": "LG",
+  "thutu": 9,
+  "anhien": 1
+},
+{
+  "_id": {
+    "$oid": "65417951fb2a89af9df36b7e"
+  },
+  "ten_loai": "CHUWI",
+  "thutu": 10,
+  "anhien": 1
+}]

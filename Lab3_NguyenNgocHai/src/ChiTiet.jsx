@@ -4,28 +4,29 @@ import './assets/css/ChiTiet.css';
 
 function ChiTiet() {
   const { id } = useParams();
-  const [sp, setSp] = useState(null);
-  const [productsSameCategory, setProductsSameCategory] = useState([]);
+  const [sp, setSp] = useState(null); // Khởi tạo state 'sp' để lưu thông tin của sản phẩm được chọn.
+  const [productsSameCategory, setProductsSameCategory] = useState([]); // Khởi tạo state để lưu trữ danh sách các sản phẩm cùng loại.
 
   useEffect(() => {
+    // Sử dụng useEffect để thực hiện các side effects trong component, được gọi sau mỗi lần render.
     fetch(`http://localhost:3000/sanpham/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        setSp(data);
+        setSp(data); // Lưu thông tin sản phẩm được chọn từ API vào state 'sp'.
 
         // Lấy sản phẩm cùng loại
         if (data && data.id_loai) {
           fetch(`http://localhost:3000/sanpham/cungloai/${data.id_loai}`)
             .then((response) => response.json())
-            .then((data) => setProductsSameCategory(data))
+            .then((data) => setProductsSameCategory(data)) // Lưu danh sách sản phẩm cùng loại từ API vào state 'productsSameCategory'.
             .catch((error) => console.error('Error:', error));
         }
       })
       .catch((error) => console.error('Error:', error));
-  }, [id]);
+  }, [id]); // useEffect sẽ chạy lại mỗi khi giá trị 'id' thay đổi.
 
   if (!sp) {
-    return <div className="not-found">Không tìm thấy sản phẩm</div>;
+    return <div className="not-found">Không tìm thấy sản phẩm</div>; 
   }
 
   return (

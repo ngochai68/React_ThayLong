@@ -6,22 +6,24 @@ import './assets/css/SPTrongLoai.css';
 
 function SPTrongLoai() {
   const { id_loai } = useParams();
-  const [list_sp, setListSp] = useState([]);
-  const [loai, setLoai] = useState({});
+  const [list_sp, setListSp] = useState([]); // Khởi tạo state list_sp để lưu trữ danh sách sản phẩm
+  const [loai, setLoai] = useState({}); // Khởi tạo state loai để lưu trữ thông tin về loại sản phẩm
 
   useEffect(() => {
-    fetch(`http://localhost:3000/loai/${id_loai}`)
+    // Sử dụng useEffect để fetch dữ liệu khi id_loai thay đổi
+    fetch(`http://localhost:3000/loai/${id_loai}`) // Fetch thông tin về loại sản phẩm dựa trên id_loai
       .then((response) => response.json())
       .then((data) => {
-        setLoai(data);
-        return fetch(`http://localhost:3000/sanpham/cungloai/${id_loai}`);
+        setLoai(data); // Cập nhật state loai với dữ liệu lấy được
+        return fetch(`http://localhost:3000/sanpham/cungloai/${id_loai}`); // Fetch danh sách sản phẩm cùng loại
       })
       .then((response) => response.json())
-      .then((data) => setListSp(data))
+      .then((data) => setListSp(data)) // Cập nhật state list_sp với danh sách sản phẩm
       .catch((error) => console.error('Error:', error));
-  }, [id_loai]);
+  }, [id_loai]); // useEffect sẽ chạy lại khi id_loai thay đổi
 
   function HienSPTrongMotTrang({ spTrongTrang }) {
+    // Component để hiển thị danh sách sản phẩm trong một trang
     return (
       <div id="data" className="row">
         {spTrongTrang.map((sp, index) => {
@@ -53,6 +55,7 @@ function SPTrongLoai() {
   
 
   function PhanTrang({ pageSize }) {
+    // Component để tạo phân trang
     const [fromIndex, setfromIndex] = useState(0);
     const toIndex = fromIndex + pageSize;
     const spTrong1Trang = list_sp.slice(fromIndex, toIndex);

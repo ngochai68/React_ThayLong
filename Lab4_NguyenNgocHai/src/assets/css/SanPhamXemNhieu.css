@@ -1,0 +1,24 @@
+.san-pham-xem-nhieu {
+    margin-top: 20px;
+  }
+  
+  .title {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .product {
+    margin-bottom: 10px;
+  }
+  
+  .product-link {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+  }
+  
+  .product-link:hover {
+    color: #007bff; /* Màu sắc khi di chuột qua sản phẩm */
+  }
+  

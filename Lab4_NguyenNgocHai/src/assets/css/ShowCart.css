@@ -1,0 +1,39 @@
+/* ShowCart.css */
+
+/* Định dạng header "Giỏ hàng của bạn" */
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Tạo border cho bảng và làm cho nó hiển thị tốt hơn */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Tùy chỉnh style cho thẻ th và td trong bảng */
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Định dạng cho thẻ input trong cột "Số lượng" */
+input[type='number'] {
+  width: 60px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Định dạng cho cột "Xóa" */
+a {
+  text-decoration: none;
+  color: #dc3545; /* Màu đỏ nhấn mạnh */
+}
+
+/* Hover effect cho việc xóa */
+a:hover {
+  text-decoration: underline;
+}

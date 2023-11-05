@@ -1,16 +1,33 @@
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { xoaSP, suaSL } from './cartSlice';
+import { xoaSP, xoaHetSP, suaSL } from './cartSlice';
 import { Link } from 'react-router-dom';
 import './assets/css/ShowCart.css';
 
 function ShowCart() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.listSP);
+
+  const [error, setError] = useState('');
+
+  const handleQuantityChange = (e, spId) => {
+    const newQuantity = parseInt(e.target.value, 10);
+    if (newQuantity >= 1) {
+      dispatch(suaSL([spId, newQuantity]));
+      setError(''); // Reset error message
+    } else {
+      setError('Số lượng phải lớn hơn hoặc bằng 1');
+    }
+  };
+
   return (
     <div>
       <h2 className="mb-4">Giỏ hàng của bạn</h2>
       <div className="table-responsive">
+        <button onClick={() => dispatch(xoaHetSP())} className="btn btn-danger mb-3">
+          Xóa toàn bộ giỏ hàng
+        </button>
         <table className="table">
           <thead>
             <tr>
@@ -27,7 +44,8 @@ function ShowCart() {
                 <tr key={index}>
                   <td>{sp.ten_sp}</td>
                   <td>
-                    <input type="number" defaultValue={sp.soluong} onClick={(e) => dispatch(suaSL([sp._id, e.target.value]))} className="form-control" />
+                    <input type="number" value={sp.soluong} onChange={(e) => handleQuantityChange(e, sp._id)} className="form-control" />
+                    {error && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{error}</p>}
                   </td>
                   <td>{Number(sp.gia).toLocaleString('vi')} VNĐ</td>
                   <td>{Number(sp.gia * sp.soluong).toLocaleString('vi')} VNĐ</td>

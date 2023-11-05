@@ -1,15 +1,26 @@
-const DonHang = require("../models/donHangModels"); // Import DonHang model
+const DonHang = require("../models/donHangModels");
 
-// Hàm controller để tạo đơn hàng mới
 const taoDonHangMoi = async (req, res) => {
   try {
-    const { thoi_diem_mua, ho_ten, email } = req.body; // Lấy thông tin từ request body
+    const {
+      ho_ten,
+      email,
+      so_dien_thoai,
+      tinh_thanh,
+      quan_huyen,
+      phuong_xa,
+      dia_chi,
+    } = req.body;
 
     // Tạo một đối tượng mới từ model DonHang
     const donHangMoi = new DonHang({
-      thoi_diem_mua,
       ho_ten,
       email,
+      so_dien_thoai,
+      tinh_thanh,
+      quan_huyen,
+      phuong_xa,
+      dia_chi,
     });
 
     // Lưu đối tượng đơn hàng mới vào cơ sở dữ liệu

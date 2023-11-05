@@ -8,6 +8,7 @@ import SPTrongLoai from './SPTrongLoai';
 import TimKiem from './TimKiem';
 import ShowCart from './ShowCart';
 import ThanhToan from './ThanhToan';
+import CamOn from './CamOn';
 import NotFound from './NotFound';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -32,6 +33,7 @@ function App() {
               <Route path="/timkiem/" element={<TimKiem />} />
               <Route path="/showcart/" element={<ShowCart />} />
               <Route path="/thanhtoan/" element={<ThanhToan />} />
+              <Route path="/camon/" element={<CamOn />} />
               <Route element={<NotFound />} />
             </Routes>
           </article>

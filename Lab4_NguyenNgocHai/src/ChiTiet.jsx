@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { themSP } from './cartSlice';
 import './assets/css/ChiTiet.css';
 
 function ChiTiet() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [sp, setSp] = useState(null); // Khởi tạo state 'sp' để lưu thông tin của sản phẩm được chọn.
   const [productsSameCategory, setProductsSameCategory] = useState([]); // Khởi tạo state để lưu trữ danh sách các sản phẩm cùng loại.
@@ -26,7 +29,7 @@ function ChiTiet() {
   }, [id]); // useEffect sẽ chạy lại mỗi khi giá trị 'id' thay đổi.
 
   if (!sp) {
-    return <div className="not-found">Không tìm thấy sản phẩm</div>; 
+    return <div className="not-found">Không tìm thấy sản phẩm</div>;
   }
 
   return (
@@ -64,6 +67,9 @@ function ChiTiet() {
                 <span className="property">Cân nặng</span>: {sp.Cannang} kg
               </p>
             </div>
+            <a href="#" onClick={() => dispatch(themSP(sp))} className="btn btn-primary">
+              Thêm vào giỏ
+            </a>
           </div>
         </div>
         <div className="row">
@@ -71,7 +77,7 @@ function ChiTiet() {
             <h3 className="related-products-heading">Sản phẩm liên quan</h3>
             <div className="row">
               {productsSameCategory
-                .filter((product) => product._id !== sp._id) 
+                .filter((product) => product._id !== sp._id)
                 .slice(0, 3)
                 .map((product, index) => (
                   <div className="col-md-4 mb-4" key={index}>
@@ -86,6 +92,9 @@ function ChiTiet() {
                           </p>
                         </div>
                       </Link>
+                      <a href="#" onClick={() => dispatch(themSP(product))} className="btn btn-primary">
+                        Thêm vào giỏ
+                      </a>
                     </div>
                   </div>
                 ))}

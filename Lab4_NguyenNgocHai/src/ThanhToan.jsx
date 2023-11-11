@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { xoaSP } from './cartSlice';
 import { useDispatch } from 'react-redux';
+import { useTaoDonHangMutation, useTaoChiTietDonHangMutation } from './api/apiSlice';
 
 function ThanhToan() {
   const dispatch = useDispatch();
@@ -58,13 +59,16 @@ function ThanhToan() {
       });
   };
 
+  const [taoDonHang] = useTaoDonHangMutation();
+  const [taoChiTietDonHang] = useTaoChiTietDonHangMutation();
+
   const cart = useSelector((state) => state.cart.listSP);
 
   const validateEmail = (email) => /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
 
   const validatePhoneNumber = (phoneNumber) => /(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(phoneNumber);
 
-  const submitDuLieu = () => {
+  const submitDuLieu = async () => {
     const ht = htRef.current.value;
     const em = emRef.current.value;
     const sdt = sdtRef.current.value;
@@ -117,8 +121,8 @@ function ThanhToan() {
       return;
     }
 
-    axios
-      .post('http://localhost:3000/donhang/taodonhang', {
+    try {
+      const donHangResponse = await taoDonHang({
         ho_ten: ht,
         so_dien_thoai: sdt,
         email: em,
@@ -126,44 +130,37 @@ function ThanhToan() {
         quan_huyen: districtValue,
         phuong_xa: wardValue,
         dia_chi: diaChi,
-      })
-      .then((response) => {
-        if (response.data.data._id) {
-          const donHangId = response.data.data._id;
-          console.log('Đã lưu đơn hàng', donHangId);
-          luuChiTietDonHang(donHangId, cart);
-        } else {
-          console.log('Lỗi lưu đơn hàng', response.data);
-        }
-      })
-      .catch((error) => {
-        console.error('Có lỗi khi gửi yêu cầu: ', error);
-      });
+      }).unwrap();
+
+      if (donHangResponse.data._id) {
+        const donHangId = donHangResponse.data._id;
+        console.log('Đã lưu đơn hàng', donHangId);
+        luuChiTietDonHang(donHangId, cart);
+      }
+    } catch (error) {
+      console.error('Có lỗi khi gửi yêu cầu: ', error);
+    }
   };
 
-  const luuChiTietDonHang = (donHangId, cart) => {
-    const urlChiTiet = 'http://localhost:3000/chitietdonhang/taochitietdonhang';
-
-    cart.forEach((sp) => {
+  const luuChiTietDonHang = async (donHangId, cart) => {
+    for (const sp of cart) {
       const chiTietData = {
         id_dh: donHangId,
         id_sp: sp._id,
         so_luong: sp.soluong,
       };
 
-      axios
-        .post(urlChiTiet, chiTietData)
-        .then((response) => {
-          luuXongSanPham(response.data);
-        })
-        .catch((err) => {
-          console.log('Lỗi lưu sp: ', err);
-        });
-    });
+      try {
+        const response = await taoChiTietDonHang(chiTietData).unwrap();
+        luuXongSanPham(response.data);
+      } catch (err) {
+        console.log('Lỗi lưu chi tiết đơn hàng: ', err);
+      }
+    }
   };
 
   const luuXongSanPham = (data) => {
-    dispatch(xoaSP(data.data.id_sp));
+    dispatch(xoaSP(data.id_sp));
     navigate('/camon');
   };
 

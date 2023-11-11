@@ -16,7 +16,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <BrowserRouter basename="/">
-      <div className="container">
+      <div className="container"> 
         <header className="text-center py-3 bg-dark text-light">
           <h1>Website Bán Hàng</h1>
         </header>

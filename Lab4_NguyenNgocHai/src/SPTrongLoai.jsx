@@ -1,29 +1,20 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { themSP } from './cartSlice';
 import ReactPaginate from 'react-paginate';
 import PropTypes from 'prop-types';
 import './assets/css/SPTrongLoai.css';
+import { useGetLoaiByIdQuery, useGetSanPhamCungLoaiQuery } from './api/apiSlice';
 
 function SPTrongLoai() {
   const { id_loai } = useParams();
-  const [list_sp, setListSp] = useState([]); // Khởi tạo state list_sp để lưu trữ danh sách sản phẩm
-  const [loai, setLoai] = useState({}); // Khởi tạo state loai để lưu trữ thông tin về loại sản phẩm
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Sử dụng useEffect để fetch dữ liệu khi id_loai thay đổi
-    fetch(`http://localhost:3000/loai/${id_loai}`) // Fetch thông tin về loại sản phẩm dựa trên id_loai
-      .then((response) => response.json())
-      .then((data) => {
-        setLoai(data); // Cập nhật state loai với dữ liệu lấy được
-        return fetch(`http://localhost:3000/sanpham/cungloai/${id_loai}`); // Fetch danh sách sản phẩm cùng loại
-      })
-      .then((response) => response.json())
-      .then((data) => setListSp(data)) // Cập nhật state list_sp với danh sách sản phẩm
-      .catch((error) => console.error('Error:', error));
-  }, [id_loai]); // useEffect sẽ chạy lại khi id_loai thay đổi
+  const { data: loai, isFetching: isFetchingLoai } = useGetLoaiByIdQuery(id_loai);
+  const { data: list_sp, isFetching: isFetchingSP } = useGetSanPhamCungLoaiQuery(id_loai);
+
+  if (isFetchingLoai || isFetchingSP) return <div>Loading...</div>;
 
   function HienSPTrongMotTrang({ spTrongTrang }) {
     // Component để hiển thị danh sách sản phẩm trong một trang
@@ -43,7 +34,7 @@ function SPTrongLoai() {
                     </p>
                   </div>
                 </Link>
-                <a href="#" onClick={() => dispatch(themSP(sp))} className="btn btn-primary">
+                <a href="#" onClick={() => dispatch(themSP({ ...sp }))} className="btn btn-primary">
                   Thêm vào giỏ
                 </a>
               </div>

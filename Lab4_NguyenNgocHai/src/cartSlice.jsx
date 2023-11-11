@@ -1,9 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const saveToLocalStorage = (cartItems) => {
+  localStorage.setItem('cart', JSON.stringify(cartItems));
+};
+
 export const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    listSP: [],
+    listSP: JSON.parse(localStorage.getItem('cart')) || [],
   },
   reducers: {
     themSP: (state, param) => {
@@ -17,6 +21,7 @@ export const cartSlice = createSlice({
         state.listSP[index].soluong++;
         console.log('Đã thêm sp. Số SP=', state.listSP.length);
       }
+      saveToLocalStorage(state.listSP);
     },
 
     suaSL: (state, param) => {
@@ -27,6 +32,7 @@ export const cartSlice = createSlice({
         state.listSP[index].soluong = Number(soluong);
         console.log('Đã sửa sp', param);
       }
+      saveToLocalStorage(state.listSP);
     },
 
     xoaSP: (state, param) => {
@@ -37,10 +43,12 @@ export const cartSlice = createSlice({
       if (index !== -1) {
         state.listSP.splice(index, 1);
       }
+      saveToLocalStorage(state.listSP);
     },
 
     xoaHetSP: (state) => {
       state.listSP = [];
+      saveToLocalStorage(state.listSP);
     },
   },
 });

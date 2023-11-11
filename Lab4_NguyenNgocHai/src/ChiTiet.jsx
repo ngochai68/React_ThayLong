@@ -1,36 +1,19 @@
-import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { themSP } from './cartSlice';
+import { useGetSanPhamByIdQuery, useGetSanPhamCungLoaiQuery } from './api/apiSlice';
 import './assets/css/ChiTiet.css';
 
 function ChiTiet() {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [sp, setSp] = useState(null); // Khởi tạo state 'sp' để lưu thông tin của sản phẩm được chọn.
-  const [productsSameCategory, setProductsSameCategory] = useState([]); // Khởi tạo state để lưu trữ danh sách các sản phẩm cùng loại.
 
-  useEffect(() => {
-    // Sử dụng useEffect để thực hiện các side effects trong component, được gọi sau mỗi lần render.
-    fetch(`http://localhost:3000/sanpham/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSp(data); // Lưu thông tin sản phẩm được chọn từ API vào state 'sp'.
+  // Sử dụng RTK Query hooks
+  const { data: sp, isFetching: isFetchingSp } = useGetSanPhamByIdQuery(id);
+  const { data: productsSameCategory, isFetching: isFetchingProductsSameCategory } = useGetSanPhamCungLoaiQuery(sp ? sp.id_loai : undefined, { skip: !sp });
 
-        // Lấy sản phẩm cùng loại
-        if (data && data.id_loai) {
-          fetch(`http://localhost:3000/sanpham/cungloai/${data.id_loai}`)
-            .then((response) => response.json())
-            .then((data) => setProductsSameCategory(data)) // Lưu danh sách sản phẩm cùng loại từ API vào state 'productsSameCategory'.
-            .catch((error) => console.error('Error:', error));
-        }
-      })
-      .catch((error) => console.error('Error:', error));
-  }, [id]); // useEffect sẽ chạy lại mỗi khi giá trị 'id' thay đổi.
-
-  if (!sp) {
-    return <div className="not-found">Không tìm thấy sản phẩm</div>;
-  }
+  if (isFetchingSp || isFetchingProductsSameCategory) return <div>Loading...</div>;
+  if (!sp) return <div className="not-found">Không tìm thấy sản phẩm</div>;
 
   return (
     <div className="container chi-tiet">
@@ -67,7 +50,7 @@ function ChiTiet() {
                 <span className="property">Cân nặng</span>: {sp.Cannang} kg
               </p>
             </div>
-            <a href="#" onClick={() => dispatch(themSP(sp))} className="btn btn-primary">
+            <a href="#" onClick={() => dispatch(themSP({ ...sp }))} className="btn btn-primary">
               Thêm vào giỏ
             </a>
           </div>

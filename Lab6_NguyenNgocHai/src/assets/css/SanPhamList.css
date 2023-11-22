@@ -1,0 +1,30 @@
+#adminspList .sp {
+  display: grid;
+  grid-template-columns: 50% auto 200px 200px;
+  margin-bottom: 5px;
+  gap: 5px;
+}
+#adminspList .sp:first-child > b,
+a {
+  background-color: darkcyan;
+  color: white;
+}
+#adminspList .sp > * {
+  border: 1px solid darkcyan;
+  padding: 8px;
+}
+#adminspList .sp > *:nth-child(2) {
+  text-align: center;
+}
+#adminspList .sp > *:nth-child(3) {
+  text-align: right;
+}
+#adminspList .sp > *:last-child {
+  text-align: right;
+}
+#adminspList .sp > *:last-child > button {
+  width: 80px;
+  height: 30px;
+  margin: 0 5px;
+  border: 1px solid darkblue;
+}

@@ -1,3 +1,7 @@
 .navbar {
   background-color: orange !important;
 }
+
+.navbar-brand {
+  background-color: orange !important;
+}

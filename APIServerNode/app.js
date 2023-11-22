@@ -27,6 +27,10 @@ app.use("/loai", loaiRoutes);
 app.use("/donhang", donHangRoutes);
 app.use("/chitietdonhang", chiTietDonHangRoutes);
 
+app.use("/images", express.static(path.join(__dirname, "images")));
+
+app.use("/images", express.static(path.join(__dirname, "public", "images")));
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

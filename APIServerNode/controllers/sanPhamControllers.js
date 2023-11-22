@@ -46,7 +46,55 @@ const laySanPhamXemNhieu = async (req, res) => {
     const sanPham = await SanPham.find().sort({ soluotxem: -1 }).limit(sosl);
     res.json(sanPham);
   } catch (err) {
-    res.status(500).json({ message: "Lỗi lấy danh sách sản phẩm xem nhiều", error: err });
+    res
+      .status(500)
+      .json({ message: "Lỗi lấy danh sách sản phẩm xem nhiều", error: err });
+  }
+};
+
+const themSanPhamMoi = async (req, res) => {
+  try {
+    const newSanPham = new SanPham(req.body);
+    const savedSanPham = await newSanPham.save();
+    res.json(savedSanPham);
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi thêm sản phẩm mới", error: err });
+  }
+};
+
+const capNhatSanPham = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedSanPham = await SanPham.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    if (!updatedSanPham) {
+      return res
+        .status(404)
+        .json({ message: "Không tìm thấy sản phẩm để cập nhật" });
+    }
+
+    res.json(updatedSanPham);
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi cập nhật sản phẩm", error: err });
+  }
+};
+
+const xoaSanPham = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deletedSanPham = await SanPham.findByIdAndDelete(id);
+
+    if (!deletedSanPham) {
+      return res
+        .status(404)
+        .json({ message: "Không tìm thấy sản phẩm để xóa" });
+    }
+
+    res.json(deletedSanPham);
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi xóa sản phẩm", error: err });
   }
 };
 
@@ -54,5 +102,8 @@ module.exports = {
   laySanPhamMoi,
   layChiTietSanPham,
   laySanPhamCungLoai,
-  laySanPhamXemNhieu
+  laySanPhamXemNhieu,
+  themSanPhamMoi,
+  capNhatSanPham,
+  xoaSanPham,
 };
